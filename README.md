@@ -1,4 +1,4 @@
-# Regra de Tres
+# Regra de Três
 Exercícios de regra de três simples
 
 ## Definição da aplicação
