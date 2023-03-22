@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercícios de Regra de Três</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        .exercise {
+            margin-bottom: 30px;
+        }
+
+        .no-print {
+            display: inline;
+        }
+
+        .calculation-box {
+            margin-bottom: 30px;
+        }
+
+        @media print {
+            .no-print {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 class="text-center mt-5">Exercícios de Regra de Três</h1>
+    <div id="exercises" class="mt-5"></div>
+    <button id="generate" class="btn btn-primary no-print">Gerar Exercícios</button>
+    <button id="print" class="btn btn-secondary no-print">Imprimir Exercícios</button>
+    <button id="toggleAnswers" class="btn btn-info no-print">Mostrar/Ocultar Respostas</button>
+</div>
+
+<script>
+let showAnswers = false;
+let exercisesList = [];
+
+function generateExercise() {
+    const randomNumber = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
+    const a = randomNumber(2, 20);
+    const b = randomNumber(2, 20);
+    const c = randomNumber(2, 20);
+    const d = (b * c) / a;
+    let y;
+    const calculation = `${a} * x = ${b} * ${c}<br>${a}x = ${y = b * c}<br>x = ${y} /  ${b} <br>x = ${d.toFixed(2)}`;
+
+    return {question: `Se ${a} está para ${b}, então ${c} está para qual número?`, answer: d.toFixed(2), calculation: calculation};
+}
+
+function generateExercises() {
+    exercisesList = [];
+    for (let i = 0; i < 5; i++) {
+        exercisesList.push(generateExercise());
+    }
+}
+
+function displayExercises() {
+    const exercises = document.getElementById('exercises');
+    exercises.innerHTML = '';
+
+    for (let i = 0; i < exercisesList.length; i++) {
+        const exercise = document.createElement('div');
+        exercise.classList.add('exercise');
+        exercise.textContent = `${i + 1}. ${exercisesList[i].question}`;
+        exercises.appendChild(exercise);
+
+        if (showAnswers) {
+            const answer = document.createElement('div');
+            answer.textContent = `(Resposta: ${exercisesList[i].answer})`;
+            exercises.appendChild(answer);
+
+            const calculationBox = document.createElement('div');
+            calculationBox.classList.add('calculation-box');
+            calculationBox.innerHTML = `Cálculo:<br>${exercisesList[i].calculation}`;
+            exercises.appendChild(calculationBox);
+        }
+    }
+}
+
+document.getElementById('generate').addEventListener('click', function () {
+    generateExercises();
+    displayExercises();
+});
+
+document.getElementById('print').addEventListener('click', function () {
+    window.print();
+});
+
+document.getElementById('toggleAnswers').addEventListener('click', function () {
+    showAnswers = !showAnswers;
+    displayExercises();
+});
+
+// Gerar exercícios ao carregar a página
+document.getElementById('generate').click();
+</script>
+</body>
+</html>
